@@ -1,34 +1,97 @@
-# Mern-job-Portal
-A full-stack MERN job portal with roles for Admin, Company, and User.
+# 💼 JobShop - Full-Stack MERN Job Portal 🚀
 
-🔑 Key Features
-🌐 General Features
-Role-Based Authentication: Har user (Admin, Company, Applicant) ke liye alag-alag signup, login, aur protected routes.
-Real-Time Notifications: Socket.IO ka istemal karke users ko foran notifications milte hain (e.g., job application submitted, status updated, interview scheduled).
-Responsive Design: Poora application mobile, tablet, aur desktop, teeno par a-one kaam karta hai.
-JWT Authentication: Secure authentication ke liye JSON Web Tokens ka istemal.
-👨‍💼 Admin Panel
-Complete Dashboard: Users, companies, jobs, aur applications ka poora overview.
-User Management: Saare users aur companies ko dekhna, manage karna, aur delete karna.
-Job Management: Platform par post ki hui saari jobs ko dekhna aur manage karna.
-Application Oversight: Saari job applications ko review karna.
-🏢 Company (Employer) Portal
-Company Profile: Company apni profile (logo, details, etc.) bana aur update kar sakti hai.
-Job Management: Apni jobs ko post, edit, aur delete karna.
-Application Tracking System (ATS): Apni jobs par aayi hui saari applications ko dekhna, filter karna, aur unka status update karna (e.g., reviewed, rejected, hired).
-Interview Scheduling: Applicants ke liye interview schedule karna.
-Dedicated Dashboard: Apni jobs aur recent applications ka ek quick overview.
-🧑‍🚀 User (Applicant) Portal
-User Profile: Ek detailed profile banana jismein resume, profile picture, skills, experience, aur education shaamil hai.
-Job Browsing & Searching: Saari available jobs ko browse, search, aur filter karna.
-Easy Apply: Sirf ek click se jobs ke liye apply karna.
-Application Tracking: Apni saari applications ka status track karna.
-Saved Jobs: Jobs ko baad mein apply karne ke liye save karna.
-💻 Technology Stack
-Frontend	Backend	Database & Authentication
-React.js	Node.js	MongoDB with Mongoose
-React Router	Express.js	JSON Web Tokens (JWT)
-Tailwind CSS	Socket.IO	bcrypt.js (Password Hashing)
-Axios	Multer (File Uploads)	Dotenv
-React Hook Form	Mongoose	
-Socket.IO Client		
+**JobShop** is a full-fledged job portal built with the MERN stack (MongoDB, Express.js, React.js, Node.js) that provides a robust platform for **Admins**, **Companies (Employers)**, and **Users (Applicants)** with dedicated dashboards, real-time notifications, role-based authentication, and a beautiful responsive UI.
+
+![JobShop Screenshot](path/to/your/screenshot.png) <!-- 🔁 Replace this with your actual image path -->
+
+[🔗 **Live Demo**](https://your-live-demo-link.com) <!-- Add your live link here -->
+
+---
+
+## ✨ Features
+
+### 🌐 General
+- 🔐 **Role-Based Authentication** – Separate logins for Admins, Companies, and Users.
+- 📩 **Real-Time Notifications** – Instant updates using **Socket.IO**.
+- 📱 **Responsive Design** – Fully optimized for mobile, tablet, and desktop.
+- 🔑 **JWT Auth** – Secure login & route protection using JSON Web Tokens.
+
+---
+
+### 👨‍💼 Admin Dashboard
+- 📊 Overview of users, jobs, companies, and applications.
+- 👥 Manage all users & companies.
+- 💼 Control and monitor all job posts.
+- 📄 Review all job applications.
+
+---
+
+### 🏢 Company (Employer) Portal
+- 🏢 Create and update company profile.
+- 📝 Post, edit, or delete job listings.
+- 🗂️ Track all applications received (ATS System).
+- 📅 Schedule interviews with applicants.
+- 📊 Quick dashboard view for jobs and applicants.
+
+---
+
+### 🧑‍🚀 User (Applicant) Portal
+- 🙋 Create a profile with resume, skills, education, and experience.
+- 🔍 Browse & filter job listings.
+- ⚡ Apply instantly with a single click.
+- 📈 Track the status of all your applications.
+- 💾 Save jobs for later.
+
+---
+
+## 🛠️ Tech Stack
+
+| Frontend          | Backend          | Database & Auth       |
+|-------------------|------------------|------------------------|
+| React.js          | Node.js          | MongoDB + Mongoose     |
+| React Router      | Express.js       | JWT (JSON Web Token)   |
+| Tailwind CSS      | Socket.IO        | bcrypt.js              |
+| Axios             | Multer           | dotenv                 |
+| React Hook Form   |                  |                        |
+
+---
+
+## ⚙️ Getting Started
+
+### 📌 Prerequisites
+
+- Node.js (v16+)
+- npm or yarn
+- MongoDB Atlas URI
+
+---
+
+### 🔧 Backend Setup
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/your-username/your-repo-name.git
+
+# 2. Go to backend folder
+cd auth-Backend
+
+# 3. Install dependencies
+npm install
+
+# 4. Create a .env file and add:
+PORT=4002
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_super_secret_jwt_key
+
+# 5. Start backend server
+npx nodemon index.js
+
+### 🔧 Frontend Setup
+# 1. Navigate to frontend folder
+cd ../auth-Frontend
+
+# 2. Install dependencies
+npm install
+
+# 3. Run the frontend server
+npm run dev

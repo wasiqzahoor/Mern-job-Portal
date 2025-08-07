@@ -137,3 +137,13 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+/auth-Frontend/dist
+/auth-Frontend/node_modules
+/auth-Frontend/.vite
+/auth-Frontend/.env
+/auth-Frontend/coverage
+
+# Backend
+/auth-Backend/node_modules
+/auth-Backend/.env

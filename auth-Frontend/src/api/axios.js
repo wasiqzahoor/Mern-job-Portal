@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+console.log("VITE ENV CHECK:", import.meta.env.VITE_BACKEND_URL);
 // ✅ Vite mein hum 'import.meta.env' use karte hain.
 // Localhost fallback bhi laga diya hai taake local development mein error na aye.
 const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4002';

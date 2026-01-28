@@ -9,7 +9,10 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  
+  // ✅ Step 1: Backend URL define karo (Environment Variable se)
+  // Agar Vercel pe hoga to variable uthayega, local pe localhost uthayega.
+  const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4002';
+
   useEffect(() => {
     const loadUserData = async () => {
       console.log('AuthContext: loadUserData started.');
@@ -19,21 +22,19 @@ export const AuthProvider = ({ children }) => {
       const storedToken = localStorage.getItem("token");
       const storedRole = localStorage.getItem("role");
 
-      
       if (storedToken && storedRole) {
         setToken(storedToken);
         setRole(storedRole);
 
-        
+        // ✅ Step 2: Hardcoded Localhost hata kar BASE_URL use kiya
         let apiEndpoint = '';
         if (storedRole === 'admin') {
-          apiEndpoint = 'http://localhost:4002/api/admin/me';
+          apiEndpoint = `${BASE_URL}/api/admin/me`;
         } else if (storedRole === 'company') {
-          apiEndpoint = 'http://localhost:4002/api/companies/me';
+          apiEndpoint = `${BASE_URL}/api/companies/me`;
         } else if (storedRole === 'user') {
-          apiEndpoint = 'http://localhost:4002/api/users/me';
+          apiEndpoint = `${BASE_URL}/api/users/me`;
         } else {
-          
           console.error(`AuthContext: Unrecognized role "${storedRole}" found. Logging out.`);
           logout();
           return;
@@ -42,7 +43,6 @@ export const AuthProvider = ({ children }) => {
         console.log(`AuthContext: Role is "${storedRole}". Calling API: ${apiEndpoint}`);
 
         try {
-          
           const res = await fetch(apiEndpoint, {
             headers: { 
               Authorization: `Bearer ${storedToken}`,
@@ -51,7 +51,6 @@ export const AuthProvider = ({ children }) => {
           });
 
           if (!res.ok) {
-            
             throw new Error(`HTTP ${res.status}: ${res.statusText}`);
           }
 
@@ -63,7 +62,6 @@ export const AuthProvider = ({ children }) => {
             setUser(data.user);
             setIsAuthenticated(true); 
             
-           
             if (data.user.role !== storedRole) {
                 console.warn(`AuthContext: Role mismatch! Stored: ${storedRole}, Fetched: ${data.user.role}. Updating.`);
                 setRole(data.user.role);
@@ -81,13 +79,11 @@ export const AuthProvider = ({ children }) => {
             console.log("AuthContext: Authentication error, logging out.");
             logout();
           } else {
-            
             setIsAuthenticated(false);
           }
         }
       } else {
         console.log('AuthContext: No token/role found in localStorage.');
-        
         logout();
       }
       
@@ -97,6 +93,7 @@ export const AuthProvider = ({ children }) => {
 
     loadUserData();
   }, []); 
+
   useEffect(() => {
     if (token) {
       try {
@@ -113,7 +110,6 @@ export const AuthProvider = ({ children }) => {
     }
   }, [token]);
 
-  
   const login = (newToken, userRole, userData) => {
     localStorage.setItem("token", newToken);
     localStorage.setItem("role", userRole);
@@ -125,7 +121,6 @@ export const AuthProvider = ({ children }) => {
     console.log('AuthContext: Login successful. User data set:', userData);
   };
 
- 
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
@@ -137,7 +132,6 @@ export const AuthProvider = ({ children }) => {
     console.log('AuthContext: Logout complete.');
   };
 
-  
   const hasRole = (requiredRole) => {
     return isAuthenticated && user && user.role === requiredRole;
   };

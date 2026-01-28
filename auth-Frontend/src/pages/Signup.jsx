@@ -1,6 +1,7 @@
-// Signup.jsx
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+// ✅ Import custom axios instance (Make sure path is correct)
+import axios from "../api/axios"; 
 
 export default function Signup() {
     const navigate = useNavigate();
@@ -33,18 +34,20 @@ export default function Signup() {
         }
 
         try {
-            
-            let apiEndpoint = "";
+            // ✅ Fix: Localhost hata diya, sirf endpoint lagaya.
+            // Base URL ab axios.js se aayega.
+            let endpoint = "";
             if (formData.role === "user") {
-                apiEndpoint = "http://localhost:4002/api/auth/register-user";
+                endpoint = "/auth/register-user";
             } else if (formData.role === "company") {
-                apiEndpoint = "http://localhost:4002/api/auth/register-company";
-            } else if (formData.role === "admin") { // Added for admin registration
-                apiEndpoint = "http://localhost:4002/api/auth/register-admin"; 
+                endpoint = "/auth/register-company";
+            } else if (formData.role === "admin") { 
+                endpoint = "/auth/register-admin"; 
             } else {
                 alert("Invalid role selected");
                 return;
             }
+
             const requestBody = {
                 email: formData.email,
                 password: formData.password,
@@ -56,50 +59,35 @@ export default function Signup() {
                 requestBody.lastName = formData.lastName;
                 requestBody.phone = formData.phone;
             } else if (formData.role === "company") {
-                
                 requestBody.companyName = formData.firstName + ' ' + formData.lastName;
             } else if (formData.role === "admin") { 
                 requestBody.firstName = formData.firstName;
                 requestBody.lastName = formData.lastName;
             }
 
-            
-            
-           
+            // ✅ Replace fetch with axios.post
+            const res = await axios.post(endpoint, requestBody);
 
-            const res = await fetch(apiEndpoint, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(requestBody),
-            });
-
-            const data = await res.json();
-
-            if (!res.ok) {
-                alert(data.message || "Signup failed");
-                return;
-            }
-
+            // Axios automatically throws error for non-2xx status, so we don't need 'if (!res.ok)'
             alert("Signup successful! Please login.");
-             if (formData.role === "company") {
-            navigate("/pending-approval");
-        }
-           else{
-            navigate("/login");
-           }
+            
+            if (formData.role === "company") {
+                navigate("/pending-approval");
+            } else {
+                navigate("/login");
+            }
         
-           
-    } 
-        catch (err) {
+        } catch (err) {
             console.error("Signup Error:", err);
-            alert("Something went wrong");
+            // ✅ Error handling for Axios
+            const errorMessage = err.response?.data?.message || "Something went wrong";
+            alert(errorMessage);
         }
     };
 
     return (
         <div className="flex justify-center items-center min-h-screen bg-DarkGray">
             <div className="bg-LightGray p-6 rounded-lg shadow-md w-full max-w-sm">
-                {/* Logo */}
                 <div className="flex items-center mb-4 justify-center">
                     <img src="/images/logo.png" alt="Jobshop Logo" className="w-8 h-8 mb-2 gap-3" />
                     <h1 className="text-xl font-bold text-gray-800">JOBSHOP</h1>

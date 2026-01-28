@@ -1,7 +1,8 @@
-// Login.jsx
 import { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { AuthContext } from "../AuthContext";
+import { AuthContext } from "../AuthContext"; // (Check path matches your folder structure)
+// ✅ Import custom axios
+import axios from "../api/axios"; 
 
 export default function Login() {
     const { login } = useContext(AuthContext);
@@ -17,17 +18,14 @@ export default function Login() {
         setError(null);
 
         try {
-            const res = await fetch("http://localhost:4002/api/auth/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password }),
-            });
+            // ✅ Fix: Using axios instance instead of fetch with hardcoded localhost
+            const res = await axios.post("/auth/login", { email, password });
+            
+            // Axios response data is in res.data
+            const data = res.data;
 
-            const data = await res.json();
-
-            if (res.ok && data.token) {
+            if (data.token) {
                 const payload = JSON.parse(atob(data.token.split(".")[1]));
-                
                 const userRole = payload.user?.role; 
 
                 if (!userRole) {
@@ -35,7 +33,6 @@ export default function Login() {
                     setLoading(false);
                     return;
                 }
-
                
                 if (userRole === "company") {
                     if (data.user.status === 'pending') {
@@ -49,25 +46,25 @@ export default function Login() {
                         return; 
                     }
                 }
-
                 
                 login(data.token, userRole, data.user);
 
                 if (userRole === "admin") {
                     navigate("/admin");
                 } else if (userRole === "company") {
-                    
                     navigate("/company");
                 } else {
                     navigate("/user");
                 }
                 
             } else {
-                setError(data.message || "Login failed. Please check your credentials.");
+                setError("Login failed. Please check your credentials.");
             }
         } catch (err) {
             console.error("Login Error:", err);
-            setError("Something went wrong with the login process. Please try again.");
+            // ✅ Handle Axios errors
+            const msg = err.response?.data?.message || "Something went wrong with the login process.";
+            setError(msg);
         } finally {
             setLoading(false);
         }

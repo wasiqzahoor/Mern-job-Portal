@@ -1,26 +1,29 @@
 // src/api/axios.js
 import axios from 'axios';
 
+// Yahan hum check kar rahe hain ke environment variable mojood hai ya nahi.
+// Agar Vercel pe hoga to 'process.env.REACT_APP_BACKEND_URL' use karega.
+// Agar local chala rahe ho to 'http://localhost:4002' use karega.
+const BASE_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4002';
+
 const instance = axios.create({
-  // ✅ IMPORTANT: This is your backend API base URL
-  baseURL: 'http://localhost:4002/api',
-  withCredentials: true, // Set to true if your backend handles cookies/sessions for credentials
+  // Hum Base URL ke agay '/api' khud laga rahe hain.
+  // Iska faida ye hai ke Environment variable mein sirf domain dena parega.
+  baseURL: `${BASE_URL}/api`, 
+  withCredentials: true, 
 });
 
-// ✅ Add an interceptor to automatically include the JWT token
+// Interceptor to automatically include the JWT token
 instance.interceptors.request.use(
   (config) => {
-    // Get the token from localStorage (or wherever you store it after login)
     const token = localStorage.getItem('token'); 
 
     if (token) {
-      // Attach the token to the Authorization header
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
   (error) => {
-    // Do something with request error
     return Promise.reject(error);
   }
 );

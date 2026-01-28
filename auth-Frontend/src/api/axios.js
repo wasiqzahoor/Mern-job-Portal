@@ -2,7 +2,7 @@ import axios from 'axios';
 console.log("VITE ENV CHECK:", import.meta.env.VITE_BACKEND_URL);
 // ✅ Vite mein hum 'import.meta.env' use karte hain.
 // Localhost fallback bhi laga diya hai taake local development mein error na aye.
-const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4002';
+const BASE_URL = 'https://mern-job-portal-1-6e2y.onrender.com'; 
 
 const instance = axios.create({
   // Base URL ke agay '/api' hum code mein hi laga rahe hain
